@@ -5,15 +5,25 @@
   $leer=fread($file, filesize("data-1.json"));
   $data=json_decode($leer,true);
 
-  echo '<div class="tituloContenido card">
-          <h5>Resultados de la búsqueda:</h5>
-          <div class="divider"></div>
-          <button type="button" name="todos" class="btn-flat waves-effect" id="mostrarTodos">Mostrar Todos</button>
-        </div>';
+  //arreglo que sera devuelto en formato json a ajax
+  $response=array();
+  //las ciudades y tipos a filtrar:
+  $ciudades=array();
+  $tipos=array();
+
+  $response['tituloContenido'] = '<div class="tituloContenido card">
+                    <h5>Resultados de la búsqueda:</h5>
+                    <div class="divider"></div>
+                    <button type="button" name="todos" class="btn-flat waves-effect" id="mostrarTodos">Mostrar Todos</button>
+                    </div>';
 
   foreach ($data as $key => $value) {
+    // asignar ciudades
+    $ciudades[$key]=$value['Ciudad'];
+    $tipos[$key]=$value['Tipo'];
 
-    echo '<div class="itemMostrado card">
+    // valor a devorlver:
+    $response[$key] = '<div class="itemMostrado card">
             <img src="img/home.jpg">
               <div class="card-stacked">
                 <span><strong>&nbsp;&nbsp;&nbsp;Direccion :</strong>'.$value['Direccion'].'</span><br />
@@ -27,6 +37,21 @@
               </div>
             </div>';
   }
+
+  // filtrar ciudades y tipo
+  $ciudades_f=array_unique($ciudades);
+  $ciudades_filtradas= array_values($ciudades_f);
+
+  $tipos_f= array_unique($tipos);
+  $tipos_filtrados= array_values($tipos_f);
+
+  // asignar variable filtrada
+  $response['ciudades'] =$ciudades_filtradas;
+  $response['tipos']=$tipos_filtrados;
+
+
+  echo json_encode($response);
+
 
   fclose($file);
 ?>
