@@ -59,6 +59,8 @@ function filtrosInit(ci,ti){
       '<option value="3">'+filtro2[2]+'</option>'
     );
 
+    $("select").material_select('update');
+
 }
 
 $(function(){
