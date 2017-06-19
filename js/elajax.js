@@ -6,9 +6,10 @@ function mostrarTodos(event){
 }
 
 function comunicador(){
+
     $.ajax({
           data:  "",
-          url:   "./buscador.php",
+          url:   "./lib.php",
           type:  "post",
           dataType: "json",
           success:  function (response) {
@@ -47,20 +48,41 @@ function filtrosInit(ci,ti){
 
   // cargar a formulario con jQuery
 
-    $('#selectCiudad').append('<option value="1">'+filtro1[0]+'</option>',
-      '<option value="2">'+filtro1[1]+'</option>',
-      '<option value="3">'+filtro1[2]+'</option>',
-      '<option value="4">'+filtro1[3]+'</option>',
-      '<option value="5">'+filtro1[4]+'</option>'
+    $('#selectCiudad').append('<option value="'+filtro1[0]+'">'+filtro1[0]+'</option>',
+      '<option value="'+filtro1[1]+'">'+filtro1[1]+'</option>',
+      '<option value="'+filtro1[2]+'">'+filtro1[2]+'</option>',
+      '<option value="'+filtro1[3]+'">'+filtro1[3]+'</option>',
+      '<option value="'+filtro1[4]+'">'+filtro1[4]+'</option>'
     );
 
-    $('#selectTipo').append('<option value="1">'+filtro2[0]+'</option>',
-      '<option value="2">'+filtro2[1]+'</option>',
-      '<option value="3">'+filtro2[2]+'</option>'
+    $('#selectTipo').append('<option value="'+filtro2[0]+'">'+filtro2[0]+'</option>',
+      '<option value="'+filtro2[1]+'">'+filtro2[1]+'</option>',
+      '<option value="'+filtro2[2]+'">'+filtro2[2]+'</option>'
     );
 
     $("select").material_select('update');
 
+
+
+
+}
+
+function envio_de_datos(){
+
+    var ciudad = $('#selectCiudad').val();
+    var tipo = $('#selectTipo').val();
+    var rango = $('#rangoPrecio').val();
+    var filtro= 'ciudad='+ciudad +'&tipo='+tipo+'&precio='+rango;
+
+    $.ajax({
+          type:  "post",
+          url: "./buscador.php",
+          data: filtro,
+          success:  function (response) {
+              alert(response);
+          }
+    });
+return false;
 }
 
 $(function(){
