@@ -6,7 +6,6 @@ function mostrarTodos(event){
 }
 
 function comunicador(){
-
     $.ajax({
           data:  "",
           url:   "./lib.php",
@@ -18,11 +17,10 @@ function comunicador(){
             tipos_f= response.tipos;
             // carga filtros
             filtrosInit(ciudad_f,tipos_f);
-
+            // si el usuario presiona mostrarTodos antes de hacer consulta
             for(i=0; i<100;i++){
               itemMostrado[i]=response[i];
             }
-
           }
     });
 }
@@ -62,9 +60,6 @@ function filtrosInit(ci,ti){
 
     $("select").material_select('update');
 
-
-
-
 }
 
 function envio_de_datos(){
@@ -78,8 +73,13 @@ function envio_de_datos(){
           type:  "post",
           url: "./buscador.php",
           data: filtro,
+          dataType: "json",
           success:  function (response) {
-              alert(response);
+            if(response!=""){
+              $(".colContenido").html(tituloContenido+response);
+            }else {
+              $(".colContenido").html('<div class="tituloContenido card"><h5>No se encuentran resultados de la búsqueda!</h5><div class="divider"></div><button type="button" name="todos" class="btn-flat waves-effect" id="mostrarTodos">Mostrar Todos</button></div>');
+            }
           }
     });
 return false;

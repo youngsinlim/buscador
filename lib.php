@@ -1,21 +1,9 @@
 <?php
-
-
-//Undefined index: city
-/*
-
-  $type = $_POST["type"];
-  $money = $_POST["money"];
-*/
-
-  $ruta ="data-1.json";
-  $file = fopen($ruta,"r");
-  $leer=fread($file, filesize("data-1.json"));
-  $data=json_decode($leer,true);
+  require('leer.php');
 
   //arreglo que sera devuelto en formato json a ajax
   $response=array();
-  //las ciudades y tipos a filtrar:
+  //las ciudades y tipos a CARGAR para filtrar:
   $ciudades=array();
   $tipos=array();
 
@@ -57,9 +45,8 @@
   $response['ciudades'] =$ciudades_filtradas;
   $response['tipos']=$tipos_filtrados;
 
-
+  //json eviado
   echo json_encode($response);
-  //echo $la_ciudad." ".$el_tipo." ".$el_precio;
 
   fclose($file);
 ?>
